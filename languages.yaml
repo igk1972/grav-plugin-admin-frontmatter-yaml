@@ -1,0 +1,4 @@
+en:
+  PLUGIN_ADMIN_FRONTMATTER_YAML:
+    BLOCKS: Blocks
+    BLOCKS_HELP: YAML blocks keeping in markdown files

@@ -40,7 +40,10 @@ class AdminFrontmatterYamlPlugin extends Plugin
      */
     public function onAdminSave(Event $e)
     {
-        $blocks = explode(',', $this->config->get('plugins.admin-frontmatter-yaml.blocks', ''));
+        $blocks = $this->config->get('plugins.admin-frontmatter-yaml.blocks');
+        if (!is_array($blocks)) {
+            $blocks = explode(',', blocks);
+        }
         $frontmatter = [];
         $header = [];
         $header_all = (array)$e['object']->header();

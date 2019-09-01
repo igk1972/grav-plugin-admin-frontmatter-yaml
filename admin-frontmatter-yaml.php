@@ -42,7 +42,7 @@ class AdminFrontmatterYamlPlugin extends Plugin
     {
         $blocks = $this->config->get('plugins.admin-frontmatter-yaml.blocks');
         if (!is_array($blocks)) {
-            $blocks = explode(',', blocks);
+            $blocks = explode(',', $blocks);
         }
         $frontmatter = [];
         $header = [];

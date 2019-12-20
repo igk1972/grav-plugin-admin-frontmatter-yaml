@@ -1,6 +1,14 @@
 # Admin Frontmatter Yaml Plugin
 
-The **Admin Frontmatter Yaml** Plugin is for [Grav CMS](http://github.com/getgrav/grav). Support frontmatter.yaml files in Admin plugin
+The **Admin Frontmatter Yaml** Plugin is for [Grav CMS](http://github.com/getgrav/grav). Support saving frontmatter.yaml files in Admin plugin.
+
+Just install Grav core, Grav Admin, and admin-frontmatter-yaml.
+
+You can specify the names of the top level of the yaml blocks in the plugin settings.
+
+You don’t have to do anything else.
+When saving to Grav Admin, file frontmatter.yaml will be created.
+
 
 ## Installation
 

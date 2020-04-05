@@ -1,3 +1,9 @@
+# v0.1.2
+##  04/05/2020
+
+1. [](#fix)
+    * Store frontmatter yaml only after save page
+
 # v0.1.1
 ##  09/01/2019
 

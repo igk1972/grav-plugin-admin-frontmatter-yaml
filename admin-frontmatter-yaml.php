@@ -30,6 +30,7 @@ class AdminFrontmatterYamlPlugin extends Plugin
         $this->enable([
             'onPageProcessed' => ['onPageProcessed', 0],
             'onAdminSave' => ['onAdminSave', 0],
+            'onAdminAfterSave' => ['onAdminAfterSave', 0],
         ]);
     }
 
@@ -40,7 +41,10 @@ class AdminFrontmatterYamlPlugin extends Plugin
      */
     public function onAdminSave(Event $e)
     {
-        $blocks = explode(',', $this->config->get('plugins.admin-frontmatter-yaml.blocks', ''));
+        $blocks = $this->config->get('plugins.admin-frontmatter-yaml.blocks');
+        if (!is_array($blocks)) {
+            $blocks = explode(',', $blocks);
+        }
         $frontmatter = [];
         $header = [];
         $header_all = (array)$e['object']->header();
@@ -51,10 +55,22 @@ class AdminFrontmatterYamlPlugin extends Plugin
                 $frontmatter[$block_name] = $header_all[$block_name];
             }
         }
+        $e['object']->header((object)$header);
+        $e['object']->addContentMeta('frontmatter', $frontmatter);
+    }
+
+    /**
+     *
+     *
+     * @param Event $e
+     */
+    public function onAdminAfterSave(Event $e)
+    {
+    	  $frontmatter = $e['object']->getContentMeta('frontmatter');
         $frontmatterFile = $this->getFile($e['object']);
         $frontmatterFile->save($frontmatter);
         $frontmatterFile->free();
-        $e['object']->header((object)$header);
+        $e['object']->addContentMeta('frontmatter', null);
     }
 
     /**

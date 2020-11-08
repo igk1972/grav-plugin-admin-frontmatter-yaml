@@ -1,3 +1,9 @@
+# v0.1.3
+##  11/08/2020
+
+1. [](#new)
+    * Add rules for nested fields
+
 # v0.1.2
 ##  04/05/2020
 

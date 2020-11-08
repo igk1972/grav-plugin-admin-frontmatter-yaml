@@ -5,6 +5,8 @@ use Grav\Common\Plugin;
 use RocketTheme\Toolbox\Event\Event;
 use Grav\Common\File\CompiledYamlFile;
 
+require_once __DIR__ . '/utils.php';
+
 /**
  * Class AdminFrontmatterYamlPlugin
  * @package Grav\Plugin
@@ -48,13 +50,27 @@ class AdminFrontmatterYamlPlugin extends Plugin
         $frontmatter = [];
         $header = [];
         $header_all = (array)$e['object']->header();
+        $blocks_root_keys = [];
+				foreach ($blocks as $block_path) {
+          $blocks_root_keys[$block_path] = current(explode('.', $block_path));
+        }
+        $frontmatter_blocks = [];
+        $header_blocks = [];
         foreach ($header_all as $block_name=>$block_data) {
-            if (in_array($block_name, $blocks)) {
-                $header[$block_name] = $header_all[$block_name];
+            if (in_array($block_name, $blocks_root_keys)) {
+                $header_blocks[$block_name] = $header_all[$block_name];
             } else {
-                $frontmatter[$block_name] = $header_all[$block_name];
+                $frontmatter_blocks[$block_name] = $header_all[$block_name];
             }
         }
+        foreach ($blocks_root_keys as $block_path=>$block_name) {
+            $key_paths = explode('.', $block_path);
+            if (in_array($block_name, array_keys($header_blocks))) {
+                $value = get_array_by_key_path($header_blocks, $key_paths);
+                $header[$block_name] = isset($header[$block_name]) && is_array($value) ? array_merge_recursive_distinct($header[$block_name], $value) : $value;
+            }
+        }
+        $frontmatter = array_merge_recursive($frontmatter_blocks, array_diff_assoc_recursive($header_blocks, $header));
         $e['object']->header((object)$header);
         $e['object']->addContentMeta('frontmatter', $frontmatter);
     }

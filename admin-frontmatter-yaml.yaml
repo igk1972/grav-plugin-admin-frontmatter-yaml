@@ -1,2 +1,7 @@
 enabled: true
-blocks: title,metadata,taxonomy
+# blocks: title,metadata,taxonomy
+blocks:
+- title
+- metadata.description
+- taxonomy
+- persons.[].name
